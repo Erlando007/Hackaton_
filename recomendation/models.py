@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Anketa(models.Model):
+class Recomendation(models.Model):
     SEX = (
         ('male', 'Мужчина'),
         ('female', 'Женщина'),
@@ -22,11 +22,7 @@ class Anketa(models.Model):
         ('Aquarius', 'Водолей'),
         ('Pisces', 'Рыбы')
     )
-    first_name = models.CharField(max_length=50, required=True)
-    last_name = models.CharField(max_length=50, required=True)
-    description = models.TextField(blank=True)
-    created_at = models.DateField(auto_now_add=True)
-    image = models.ImageField(upload_to='images/', null=True)
-    age = models.IntegerField(required=True)
+    min_age = models.IntegerField()
+    max_age = models.IntegerField()
     sex = models.CharField(max_length=20, choices=SEX)
     zodiac = models.CharField(max_length=20, choices=ZODIAC)
