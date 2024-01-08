@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken', 
     'django_filters',
     'drf_yasg',
+    'djoser',
 
     # apps
     'account',
@@ -155,4 +156,28 @@ SWAGGER_SETTINGS = {
             'in': 'header'
       }
    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
+#smpt
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ascar6000@gmail.com'
+EMAIL_HOST_PASSWORD = 'akca dasx tdas qzjn'
+EMAIL_PORT = 587
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {},
 }
