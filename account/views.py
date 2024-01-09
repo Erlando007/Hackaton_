@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from .models import Anketa
@@ -15,4 +16,3 @@ class AnketaModelViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
         return Response('Анкета создана',201)
         
-

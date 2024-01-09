@@ -14,4 +14,5 @@ class Like(models.Model):
         related_name='like',
         on_delete=models.CASCADE
     )
-    
+
+
