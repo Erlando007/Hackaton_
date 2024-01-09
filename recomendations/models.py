@@ -22,7 +22,10 @@ class Recomendation(models.Model):
         ('Aquarius', 'Водолей'),
         ('Pisces', 'Рыбы')
     )
-    min_age = models.IntegerField()
-    max_age = models.IntegerField()
+    min_age = models.IntegerField(default = 18)
+    max_age = models.IntegerField(default = 50)
     sex = models.CharField(max_length=20, choices=SEX)
-    zodiac = models.CharField(max_length=20, choices=ZODIAC)
+    zodiac = models.CharField(max_length=20, choices=ZODIAC, null = True)
+    user = models.ForeignKey('auth.User', 
+        on_delete=models.CASCADE,
+        related_name='rekomendations')
