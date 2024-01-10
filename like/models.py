@@ -6,8 +6,8 @@ from account.models import Anketa
 class Like(models.Model):
     user = models.ForeignKey(
         'auth.User', 
+        related_name='like',
         on_delete=models.CASCADE,
-        related_name='like'
     )
     anketa = models.ForeignKey(
         Anketa,
