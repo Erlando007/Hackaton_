@@ -11,11 +11,29 @@ class AnketaSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
         validated_data['first_name'] = validated_data.get('first_name').capitalize()
         validated_data['last_name'] = validated_data.get('last_name').capitalize()
-        return super().create(validated_data)
-    def validate_age(self,age):
-        if age < 18:
-            raise serializers.ValidationError('Ваш возраст не соответствует условиям политики сайта')
+        anket = Anketa.objects.create(**validated_data)
+        anket.save()
+        return anket
     
+    def validate_age(self,age):
+        if age <= 18:
+            raise serializers.ValidationError('Ваш возраст не соответствует условиям политики сайта')
+        return age
+    def to_representation(self, instance):
+        repr = super().to_representation(instance)
+        repr['id'] = instance.id
+        return repr
+    
+
+    # def to_representation(self, instance):
+    #     repr = super().to_representation(instance)
+    #     children = instance.children.all()
+    #     if children:
+    #         repr['children'] = CategorySerializer(
+    #             children, many=True
+    #         ).data
+    #     repr['makers'] = 'makers'
+    #     return repr
     
     
     # def create(self, validated_data):
