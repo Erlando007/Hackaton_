@@ -1,24 +1,29 @@
 from django.core.mail import send_mail
 
-def send_like_notification(sender_username, receiver_email):
+def send_like_notification(sender_username, receiver_email,reciver_username):
     subject = 'Новый лайк'
-    message = f'Пользователь {sender_username} поставил вам лайк!'
+    message = f'Пользователь {reciver_username} поставил вам лайк!'
     from_email = 'Ascar6000@gmail.com'
     recipient_list = [receiver_email]
     send_mail(subject, message, from_email, recipient_list)
 
 def send_like_notification_vs(user1, user2):
     subject = 'Взаимный лайк'
-    message = f'У вас с {user1.username} Взаимные лайки!'
-    from_email = 'Ascar6000@gmail.com'  
-    recipient_list = [user1.email, user2.email]
+    message1 = f'У вас с {user2.username} Взаимные лайки!'
+    message2 = f'У вас с {user1.username} Взаимные лайки!'
+    from_email = 'Ascar6000@gmail.com'
 
-    send_mail(subject, message, from_email, recipient_list)
+    recipient_list1 = [user1.email]
+    recipient_list2 = [user2.email]
+
+    send_mail(subject, message1, from_email, recipient_list1)
+    send_mail(subject, message2, from_email, recipient_list2)
+    
 
 
-def send_like_deleted(sender_username, receiver_email):
+def send_like_deleted(sender_username, receiver_email,receiver_username):
     subject = 'Вы потеряли один лайк'
-    message = f'Пользователь {sender_username} убрал лайк из вашей анкеты, сделайте с этим что нибудь!'
+    message = f'Пользователь {receiver_username} убрал лайк из вашей анкеты, сделайте с этим что нибудь!'
     from_email = 'Ascar6000@gmail.com'
     recipient_list = [receiver_email]
     send_mail(subject, message, from_email, recipient_list)

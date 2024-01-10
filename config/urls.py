@@ -37,4 +37,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui("swagger")),
     path('redoc/', schema_view.with_ui("redoc")),
     path('account/',include('account.urls')),
+    path('comment/',include('comment.urls')),
 ]

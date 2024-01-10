@@ -1,12 +1,23 @@
 from .models import Anketa
 from rest_framework import serializers
-
+from comment.serializers import CommentSerializer
 class AnketaSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
+    comments = serializers.SerializerMethodField(method_name='get_comments')
+    likes_count = serializers.SerializerMethodField(method_name='get_likes_count')
     class Meta:
         model = Anketa
-        fields = ['first_name', 'last_name', 'sex', 'zodiac', 'user','age']
+        fields = ['first_name', 'last_name', 'sex', 'zodiac', 'user','age','comments','likes_count']
     
+    def get_likes_count(self, instance):
+        likes_counter = instance.like.all().count()
+        return likes_counter
+    def get_comments(self, instance):
+        comments = instance.comments.all()
+        serializer = CommentSerializer(
+            comments, many=True
+        )
+        return serializer.data
     
     def create(self,validated_data):
         validated_data['first_name'] = validated_data.get('first_name').capitalize()
