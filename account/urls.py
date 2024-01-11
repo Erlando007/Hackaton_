@@ -6,5 +6,6 @@ router = DefaultRouter()
 router.register('', AnketaModelViewSet)
 
 urlpatterns = [
-    path('anket/', include(router.urls))
+    path('anket/', include(router.urls)),
+    
 ]

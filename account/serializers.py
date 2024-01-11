@@ -1,23 +1,32 @@
 from .models import Anketa
 from rest_framework import serializers
 from comment.serializers import CommentSerializer
+
 class AnketaSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.id')
-    comments = serializers.SerializerMethodField(method_name='get_comments')
+    # comments = CommentSerializer(many = True,read_only = True)
     likes_count = serializers.SerializerMethodField(method_name='get_likes_count')
     class Meta:
         model = Anketa
-        fields = ['first_name', 'last_name', 'sex', 'zodiac', 'user','age','comments','likes_count']
+        fields = ['first_name', 'last_name', 'sex', 'zodiac','age','likes_count','height','photo']
     
+
+    def validate(self, data):
+        request = self.context.get('request')
+        user = request.user
+        if Anketa.objects.filter(user=user).exists():
+            raise serializers.ValidationError('У этого пользователя уже есть анкета')
+        return data
+
     def get_likes_count(self, instance):
-        likes_counter = instance.like.all().count()
+        likes_counter = instance.like.count()
         return likes_counter
-    def get_comments(self, instance):
-        comments = instance.comments.all()
-        serializer = CommentSerializer(
-            comments, many=True
-        )
-        return serializer.data
+    
+    # def get_comments(self, instance):
+    #     comments = instance.comments.all()
+    #     serializer = CommentSerializer(
+    #         comments, many=True
+    #     )
+    #     return serializer.data
     
     def create(self,validated_data):
         validated_data['first_name'] = validated_data.get('first_name').capitalize()
