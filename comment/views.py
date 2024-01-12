@@ -22,18 +22,5 @@ class CommentViewSet(ModelViewSet):
     search_fields = ['content']
     filterset_fields = ['anketa']
 
-    # @action(detail=False, methods=['GET'])
-    # def get_user_comments(self, request):
-    #     user_comments = Comment.objects.filter(owner=request.user)
-    #     serializer = CommentSerializer(user_comments, many=True)
-    #     return Response(serializer.data)
-
-
-    # def get_permissions(self, request, *args, **kwargs):
-    #     if self.request.method in ['PATCH', 'PUT', 'DELETE']:
-    #         return [permissions.IsAuthenticated(), IsOwner()]
-    #     return [permissions.AllowAny()]
-
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

@@ -16,7 +16,7 @@ def like_anket_save(sender, instance, created, **kwargs):
         if Like.objects.filter(user = liked_user,anketa = anket_sender).exists():
             send_like_notification_vs(like_sender,liked_user)
         else:
-            send_like_notification(receiver_username, receiver_email,sender_username)
+            send_like_notification(receiver_email,sender_username)
 
 # def like_notification(sender, instance, created, **kwargs):
 #     if created:
