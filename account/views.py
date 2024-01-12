@@ -7,6 +7,12 @@ from rest_framework.decorators import action
 from like.models import Like
 from comment.serializers import CommentSerializer
 from rest_framework import status
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django.core.files.storage import default_storage
+from rest_framework.generics import ListAPIView
+
 class AnketaModelViewSet(ModelViewSet):
     queryset = Anketa.objects.all()
     serializer_class = AnketaSerializer
@@ -32,7 +38,8 @@ class AnketaModelViewSet(ModelViewSet):
             anketa=anketa,
             user=request.user
         )
-        return Response(f'Вы лайкнули анкету {anketa.first_name}', 201)
+        
+        return Response(f'Вы лайкнули анкету ', 201)
     
     @action(detail=True, methods=['POST'])
     def comment(self, request, pk=None):
@@ -44,10 +51,41 @@ class AnketaModelViewSet(ModelViewSet):
     
     def retrieve(self, request, *args, **kwargs):
         anket = self.get_object()
+        instagram_username = anket.instagram_username
+        
         serializer = AnketaSerializer(instance=anket)
         serialized_data = serializer.data
+        
         comment_serializer = CommentSerializer(instance=anket.comments, many=True)
         serialized_data['comments'] = comment_serializer.data
+        
+        # Add 'instagram_username' to the serialized data
+        serialized_data['instagram_username'] = instagram_username
+
         return Response(serialized_data)
     
+class ImageDetailView(APIView):
+    def get(self, request, pk):
+        anketa = get_object_or_404(Anketa, pk=pk)
+        image_path = anketa.photo.path
+
+        if not default_storage.exists(image_path):
+            return Response({'detail': 'Файл не найден'}, status=status.HTTP_404_NOT_FOUND)
         
+        with default_storage.open(image_path, 'rb') as image_file:
+            response = HttpResponse(image_file.read(), content_type='image/jpeg')
+            response['Content-Disposition'] = f'inline; filename="{anketa.photo.name}"'
+            return response
+        
+
+class RatingListAPIView(ListAPIView):
+    queryset = Anketa.objects.all()
+    serializer_class = AnketaSerializer
+
+    def list(self, request, *args, **kwargs):
+        anketa_objects = Anketa.objects.order_by('like') # Use '-like' for descending order
+        serializer = self.get_serializer(anketa_objects, many=True)
+        res = serializer.data
+        return Response(serializer.data)
+
+
