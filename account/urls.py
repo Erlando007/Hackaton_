@@ -3,6 +3,10 @@ from django.urls import path, include
 from .views import AnketaModelViewSet, RatingListAPIView
 from like.views import LikeHistoryListAPIView
 
+from .views import *
+
+
+r
 router = DefaultRouter()
 router.register('', AnketaModelViewSet)
 

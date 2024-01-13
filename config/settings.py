@@ -183,6 +183,7 @@ DJOSER = {
     'SERIALIZERS': {},
 }
 
+
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Замените на свои данные для Redis
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Замените на свои данные для Redis
 CELERY_ACCEPT_CONTENT = ['json']
@@ -195,4 +196,5 @@ CACHES = {
         'LOCATION': '127.0.0.1:11211',
     }
 }
+
 

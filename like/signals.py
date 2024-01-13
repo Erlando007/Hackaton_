@@ -18,6 +18,7 @@ def like_anket_save(sender, instance, created, **kwargs):
         else:
             send_email_task1.delay(receiver_email,sender_username)
 
+
 # def like_notification(sender, instance, created, **kwargs):
 #     if created:
 #         user1 = instance.user

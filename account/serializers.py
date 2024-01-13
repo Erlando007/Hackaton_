@@ -10,13 +10,6 @@ class AnketaSerializer(serializers.ModelSerializer):
         fields = ['first_name', 'last_name', 'sex', 'zodiac','age','likes_count','height','photo']
     
 
-    def validate(self, data):
-        request = self.context.get('request')
-        user = request.user
-        if Anketa.objects.filter(user=user).exists():
-            raise serializers.ValidationError('У этого пользователя уже есть анкета')
-        return data
-
     def get_likes_count(self, instance):
         likes_counter = instance.like.count()
         return likes_counter
@@ -29,6 +22,10 @@ class AnketaSerializer(serializers.ModelSerializer):
     #     return serializer.data
     
     def create(self,validated_data):
+        request = self.context.get('request')
+        user = request.user
+        if Anketa.objects.filter(user=user).exists():
+            raise serializers.ValidationError('У этого пользователя уже есть анкета')
         validated_data['first_name'] = validated_data.get('first_name').capitalize()
         validated_data['last_name'] = validated_data.get('last_name').capitalize()
         anket = Anketa.objects.create(**validated_data)
