@@ -7,6 +7,7 @@ class AuthUser:
         self.username = username
         self.password = password
         self.header = None
+        
     def authenticate_user(self):
         api_url = 'http://127.0.0.1:8000/account/auth/token/login/' 
         data = {

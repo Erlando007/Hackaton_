@@ -1,20 +1,17 @@
-from rest_framework import permissions
-from rest_framework.viewsets import ModelViewSet
+from requests import Response
+from rest_framework.generics import ListCreateAPIView
 from .serializers import CommentSerializer
 from .models import Comment
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 from .permissions import IsOwner
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
 class StandartResultPagination(PageNumberPagination):
     page_size = 1
     page_query_param = 'page'
 
 
-class CommentViewSet(ModelViewSet):
+class CommentListCreateAPIView(ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     pagination_class = StandartResultPagination
@@ -22,5 +19,13 @@ class CommentViewSet(ModelViewSet):
     search_fields = ['content']
     filterset_fields = ['anketa']
 
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     if request.user == instance.user:
+    #         return super().update(request, *args, **kwargs)
+    #     return Response('Вы не можете отредактировать чужую анкету')
+    
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+

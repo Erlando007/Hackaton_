@@ -84,8 +84,4 @@ def error(message):
 
 
 
-
-
-
-
 bot.polling()
