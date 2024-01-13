@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Birge_Bol",
+        title="Kinder",
 
         description="mini service for posting your life",
 

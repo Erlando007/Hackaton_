@@ -3,7 +3,6 @@ from django.core.mail import send_mail
 def send_like_notification(receiver_email,reciver_username):
     subject = 'Новый лайк'
     message = f'Пользователь {reciver_username} поставил вам лайк!'
-    print(receiver_email)
     from_email = 'Ascar6000@gmail.com'
     recipient_list = [receiver_email]
     send_mail(subject, message, from_email, recipient_list)

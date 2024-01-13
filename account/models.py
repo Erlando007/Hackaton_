@@ -37,4 +37,4 @@ class Anketa(models.Model):
         related_name='anket')   
 
     def __str__(self):
-        return f'first_name: {self.first_name} anket: {self.user} id: {self.id}'
+        return f'anket: {self.user} id: {self.id} user: {self.user}'
