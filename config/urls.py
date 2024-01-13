@@ -18,10 +18,13 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from account.views import ImageDetailView
+from django.conf import settings
+from django.conf.urls.static import static
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="BLOG API",
+        title="Birge_Bol",
 
         description="mini service for posting your life",
 
@@ -39,4 +42,9 @@ urlpatterns = [
     path('account/',include('account.urls')),
     path('rec_ankets/',include('recomendations.urls')),
     path('comment/',include('comment.urls')),
+    path('image/<int:pk>/', ImageDetailView.as_view(), name='image-detail')
 ]
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
