@@ -4,15 +4,12 @@ from comment.serializers import CommentSerializer
 
 class AnketaSerializer(serializers.ModelSerializer):
     # comments = CommentSerializer(many = True,read_only = True)
-    likes_count = serializers.SerializerMethodField(method_name='get_likes_count')
+    
     class Meta:
         model = Anketa
         fields = ['first_name', 'last_name', 'sex', 'zodiac','age','likes_count','height','photo']
     
 
-    def get_likes_count(self, instance):
-        likes_counter = instance.like.count()
-        return likes_counter
     
     # def get_comments(self, instance):
     #     comments = instance.comments.all()

@@ -7,6 +7,8 @@ from config.tasks import send_email_task1, send_email_task2, send_email_task3
 @receiver(post_save, sender=Like)
 def like_anket_save(sender, instance, created, **kwargs):
     if created: 
+        instance.anketa.likes_count += 1
+        instance.anketa.save()
         sender_username = instance.user.username
         receiver_username =  instance.anketa.user.username
         receiver_email = instance.anketa.user.email  
@@ -33,6 +35,8 @@ def like_anket_save(sender, instance, created, **kwargs):
 def like_post_delete(sender, instance, **kwargs):
     sender_username = instance.user
     receiver_username =  instance.anketa.user
+    instance.anketa.likes_count -= 1
+    instance.anketa.save()
 
     receiver_email = instance.user.email  
     send_email_task3.delay(sender_username.email, receiver_email)

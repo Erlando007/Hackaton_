@@ -31,6 +31,7 @@ class Anketa(models.Model):
     zodiac = models.CharField(max_length=20, choices=ZODIAC)
     height = models.IntegerField(default = 170)
     instagram_username = models.CharField(max_length=100)
+    likes_count = models.IntegerField(default = 0)
     user = models.ForeignKey(User, 
         on_delete=models.CASCADE,
         related_name='anket')   
