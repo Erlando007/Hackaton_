@@ -17,8 +17,4 @@ class Like(models.Model):
     )
 
 
-class LikeHistory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_user')
-    liked_by = models.ForeignKey(Anketa, on_delete=models.CASCADE, related_name='liked_by_user')
-    timestamp = models.DateTimeField(auto_now_add=True)
 

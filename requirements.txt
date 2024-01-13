@@ -8,3 +8,4 @@ drf-yasg
 djoser
 pyTelegramBotAPI
 requests
+celery[redis]

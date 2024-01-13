@@ -82,17 +82,17 @@ class ImageDetailView(APIView):
             response = HttpResponse(image_file.read(), content_type='image/jpeg')
             response['Content-Disposition'] = f'inline; filename="{anketa.photo.name}"'
             return response
-        
 
 class RatingListAPIView(ListAPIView):
     queryset = Anketa.objects.all()
     serializer_class = AnketaSerializer
 
-    def list(self, request, *args, **kwargs):
-        anketa_objects = Anketa.objects.order_by('like') # Use '-like' for descending order
-        serializer = self.get_serializer(anketa_objects, many=True)
-        res = serializer.data
-        return Response(serializer.data)
+    def get_queryset(self):
+        queryset = Anketa.objects.all().order_by('-likes_count')
+        return queryset
+
+
+
 
 
 
