@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from .models import Like
 from account.models import Anketa
 from .emails import send_like_notification,send_like_deleted,send_like_notification_vs
-from config.tasks import send_email_task1, send_email_task2, send_email_task3
+# from config.tasks import send_email_task1, send_email_task2, send_email_task3
 @receiver(post_save, sender=Like)
 def like_anket_save(sender, instance, created, **kwargs):
     if created: 
@@ -14,9 +14,9 @@ def like_anket_save(sender, instance, created, **kwargs):
         like_sender = Anketa.objects.filter(user=instance.user.pk).first() #User который отправил лайк
         anket_sender = Anketa.objects.filter(user=instance.user.pk).first()# Анкета User который лайкнул  
         if Like.objects.filter(user = liked_user,anketa = anket_sender).exists():
-            send_email_task2.delay(like_sender.user.email,liked_user.email)
+            send_like_notification_vs(like_sender.user.email,liked_user.email)
         else:
-            send_email_task1.delay(receiver_email,sender_username)
+            send_like_notification(receiver_email,sender_username)
 
 
 # def like_notification(sender, instance, created, **kwargs):
@@ -33,6 +33,5 @@ def like_anket_save(sender, instance, created, **kwargs):
 def like_post_delete(sender, instance, **kwargs):
     sender_username = instance.user
     receiver_username =  instance.anketa.user
-
     receiver_email = instance.user.email  
-    send_email_task3.delay(sender_username.email, receiver_email)
+    send_like_deleted(receiver_username.email, receiver_email)

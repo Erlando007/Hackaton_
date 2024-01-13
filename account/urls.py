@@ -5,8 +5,6 @@ from like.views import LikeHistoryListAPIView
 
 from .views import *
 
-
-r
 router = DefaultRouter()
 router.register('', AnketaModelViewSet)
 
