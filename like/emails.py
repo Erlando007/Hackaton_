@@ -20,9 +20,9 @@ def send_like_notification_vs(user1, user2):
     send_mail(subject, message2, from_email, recipient_list2)
     
 
-def send_like_deleted(receiver_email,receiver_username):
+def send_like_deleted(receiver_email,sender_username):
     subject = 'Вы потеряли один лайк'
-    message = f'Пользователь {receiver_username} убрал лайк из вашей анкеты, сделайте с этим что нибудь!'
+    message = f'Пользователь {sender_username} убрал лайк из вашей анкеты, сделайте с этим что нибудь!'
     from_email = 'Ascar6000@gmail.com'
     recipient_list = [receiver_email]
     send_mail(subject, message, from_email, recipient_list)
