@@ -7,17 +7,19 @@ from rest_framework.decorators import action
 from like.models import Like
 from comment.serializers import CommentSerializer
 from rest_framework import status
+
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.core.files.storage import default_storage
 from rest_framework.generics import ListAPIView
 
+
 class AnketaModelViewSet(ModelViewSet):
     queryset = Anketa.objects.all()
     serializer_class = AnketaSerializer
     permission_classes = [IsAuthenticated]
-    
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user) 
 
@@ -43,10 +45,10 @@ class AnketaModelViewSet(ModelViewSet):
     
     @action(detail=True, methods=['POST'])
     def comment(self, request, pk=None):
-        post = self.get_object()
+        anket = self.get_object()
         serializer = CommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(post=post, owner=request.user)
+        serializer.save(anketa=anket)
         return Response('успешно добавлено', 201)
     
     def retrieve(self, request, *args, **kwargs):
@@ -64,6 +66,15 @@ class AnketaModelViewSet(ModelViewSet):
 
         return Response(serialized_data)
     
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.user == instance.user:
+            return super().update(request, *args, **kwargs)
+        return Response('Вы не можете отредактировать чужую анкету')
+        
+    
+
 class ImageDetailView(APIView):
     def get(self, request, pk):
         anketa = get_object_or_404(Anketa, pk=pk)
@@ -87,5 +98,6 @@ class RatingListAPIView(ListAPIView):
         serializer = self.get_serializer(anketa_objects, many=True)
         res = serializer.data
         return Response(serializer.data)
+
 
 
