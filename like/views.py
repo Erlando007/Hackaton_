@@ -1,8 +1,5 @@
-
-
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from .serializers import LikeSerializer
 from like.models import Like
 from account.models import Anketa
 from account.serializers import AnketaSerializer

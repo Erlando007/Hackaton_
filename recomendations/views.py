@@ -2,18 +2,12 @@ from rest_framework import generics
 from account.models import Anketa
 from account.serializers import AnketaSerializer
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import CharField, Case, Value, When,IntegerField,F
+from django.db.models import CharField, Case, Value, When,F
 from django.db.models.functions import Abs
 class RecomendationsListAPIView(generics.ListAPIView):
     queryset = Anketa.objects.all()
     serializer_class = AnketaSerializer
-    permission_classes = [IsAuthenticated]
-    
-    # def list(self, request, *args, **kwargs):
-    #     user = request.user
-    #     print(user)
-    #     queryset = Anketa.objects.exclude(user=current_user)
-    #     return super().list(request, *args, **kwargs)
+    permission_classes = [IsAuthenticated]   
     
     def get_queryset(self):
         current_user = self.request.user
