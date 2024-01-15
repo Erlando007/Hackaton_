@@ -4,7 +4,8 @@ import requests
 from decouple import config
 from funcs_to_bot import *
 import json
-bot = telebot.TeleBot(config('BOT_KEY'))
+BOT_KEY = '6714460987:AAFglxnCJABRmsM_1IuaefGLqvvM26os3Qg'
+bot = telebot.TeleBot(BOT_KEY)
 
 users = {}
 

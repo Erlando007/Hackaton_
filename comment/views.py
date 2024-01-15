@@ -18,12 +18,6 @@ class CommentListCreateAPIView(ListCreateAPIView):
     filter_backends = (SearchFilter, DjangoFilterBackend)
     search_fields = ['content']
     filterset_fields = ['anketa']
-
-    # def update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     if request.user == instance.user:
-    #         return super().update(request, *args, **kwargs)
-    #     return Response('Вы не можете отредактировать чужую анкету')
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

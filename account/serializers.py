@@ -1,22 +1,12 @@
 from .models import Anketa
 from rest_framework import serializers
-from comment.serializers import CommentSerializer
 
 class AnketaSerializer(serializers.ModelSerializer):
-    # comments = CommentSerializer(many = True,read_only = True)
     
     class Meta:
         model = Anketa
         fields = ['first_name', 'last_name', 'sex', 'zodiac','age','likes_count','height','photo']
     
-
-    
-    # def get_comments(self, instance):
-    #     comments = instance.comments.all()
-    #     serializer = CommentSerializer(
-    #         comments, many=True
-    #     )
-    #     return serializer.data
     
     def create(self,validated_data):
         request = self.context.get('request')
@@ -39,20 +29,5 @@ class AnketaSerializer(serializers.ModelSerializer):
         return repr
     
 
-    # def to_representation(self, instance):
-    #     repr = super().to_representation(instance)
-    #     children = instance.children.all()
-    #     if children:
-    #         repr['children'] = CategorySerializer(
-    #             children, many=True
-    #         ).data
-    #     repr['makers'] = 'makers'
-    #     return repr
-    
-    
-    # def create(self, validated_data):
-    #     anket = Anketa.objects.create(**validated_data)
-    #     anket
-    #     anket.save()
-    #     return user
+
     

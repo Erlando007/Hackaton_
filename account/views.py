@@ -7,7 +7,6 @@ from rest_framework.decorators import action
 from like.models import Like
 from comment.serializers import CommentSerializer
 from rest_framework import status
-
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
